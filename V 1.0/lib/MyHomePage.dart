@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:multilevel_drawer/SecondScreen.dart';
-import 'package:multilevel_drawer/MultiLevelDrawer.dart';
+import 'package:multilevel_drawer/screens/DatiPersonali.dart';
+import 'package:multilevel_drawer/screens/SecondScreen.dart';
+import 'package:multilevel_drawer/layout/MultiLevelDrawer.dart';
+import 'package:multilevel_drawer/screens/DatiPersonali.dart';
+import 'package:multilevel_drawer/screens/Options.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -48,25 +51,25 @@ class _MyHomePageState extends State<MyHomePage> {
                       onClick: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => SecondScreen()));
+                            builder: (context) => DatiPersonalini()));
                       },
                       submenuContent: Text("Dati Personali")),
                   MLSubmenu(
                       onClick: () {},
                       submenuContent: Text("Resoconto settimanle")),
-                  MLSubmenu(
-                      onClick: () {}, submenuContent: Text("Tutti i dati")),
                 ],
                 onClick: () {}),
             MLMenuItem(
-                leading: Icon(Icons.settings),
-                trailing: Icon(Icons.arrow_right),
-                content: Text("Settings"),
-                onClick: () {},
-                subMenuItems: [
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 1")),
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 2"))
-                ]),
+              leading: Icon(Icons.settings),
+              trailing: Icon(Icons.arrow_right),
+              content: Text("Settings"),
+              onClick: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Options(),
+                ));
+              },
+            ),
             MLMenuItem(
               leading: Icon(Icons.notifications),
               content: Text("Notifications"),
@@ -75,19 +78,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (context) => SecondScreen()));
               },
             ),
-            MLMenuItem(
-                leading: Icon(Icons.payment),
-                trailing: Icon(Icons.arrow_right),
-                content: Text(
-                  "Payments",
-                ),
-                subMenuItems: [
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 1")),
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 2")),
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 3")),
-                  MLSubmenu(onClick: () {}, submenuContent: Text("Option 4")),
-                ],
-                onClick: () {}),
             MLMenuItem(
               leading: Icon(Icons.logout),
               content: Text('Logout'),

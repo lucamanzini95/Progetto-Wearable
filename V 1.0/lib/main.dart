@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:multilevel_drawer/SecondScreen.dart';
-import 'package:multilevel_drawer/MultiLevelDrawer.dart';
+import 'package:multilevel_drawer/screens/SecondScreen.dart';
+import 'package:multilevel_drawer/layout/MultiLevelDrawer.dart';
 import 'package:multilevel_drawer/MyHomePage.dart';
 
 void main() => runApp(MyApp());

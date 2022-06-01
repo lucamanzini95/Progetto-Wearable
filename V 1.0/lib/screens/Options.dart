@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SecondScreen extends StatelessWidget {
+class Options extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text("Versione 1.0: only UI"),
+          child: Text("opzioni"),
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
