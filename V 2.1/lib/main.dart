@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:progetto_wearable/screens/MyHomePage.dart';
 import 'package:progetto_wearable/screens/loginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
