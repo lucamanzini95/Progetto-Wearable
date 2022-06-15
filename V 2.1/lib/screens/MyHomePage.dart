@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:progetto_wearable/screens/loginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -38,7 +39,11 @@ class MyHomePage extends StatelessWidget {
     );
   } //build
 
-  void _toLoginPage(BuildContext context) {
+  void _toLoginPage(BuildContext context) async {
+    //Unset the 'username' filed in SharedPreference
+    final sp = await SharedPreferences.getInstance();
+    sp.remove('username');
+
     //Pop the drawer first
     Navigator.pop(context);
     //Then pop the HomePage
