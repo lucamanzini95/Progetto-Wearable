@@ -21,12 +21,20 @@ class MyHomePage extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
+          children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountEmail: Text('nome@mail.com'),
+              accountName: Text('Pippo'),
+              decoration: BoxDecoration(color: Colors.blue),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('assets/dog.jpg'),
+                radius: 100,
               ),
-              child: Text('login_flow'),
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () => _toLoginPage(context),
             ),
             ListTile(
               leading: Icon(Icons.logout),
