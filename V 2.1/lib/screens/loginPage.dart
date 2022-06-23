@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
     if (sp.getString('username') != null) {
       //If 'username is set, push the HomePage
       _toHomePage(context);
-    } //if
+    }
   } //_checkLogin
 
   Future<String> _loginUser(LoginData data) async {
