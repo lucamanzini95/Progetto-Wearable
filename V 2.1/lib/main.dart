@@ -55,6 +55,12 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(builder: (context) {
             return RegistrationPage(user: args['user']);
           });
+        } else if (settings.name == SleepPage.route)
+        {
+          final args = settings.arguments as Map;
+          return MaterialPageRoute(builder: (context) {
+          return SleepPage(user: args['user']);
+          });
         } else {
           return null;
         } //if-else

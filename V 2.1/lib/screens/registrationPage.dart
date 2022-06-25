@@ -206,21 +206,8 @@ class _RegistrationPageState extends State<RegistrationPage>
                             ),
                           ],
                         ),
-                        ElevatedButton
-                        (
-                          onPressed: () async
-                          {
-                            String? userId = await FitbitConnector.authorize(
-                            context: context,
-                            clientID: '238LL2',
-                            clientSecret: '2d897732730cb4a5aee10cbada65206d',
-                            redirectUri: 'example://fitbit/auth',
-                            callbackUrlScheme: 'example://fitbit/auth');
-                          },
-                          child: const Text('Connect your device'),
-                        )
+                        
                       ],
-
                     ),
                   ),
                 );
