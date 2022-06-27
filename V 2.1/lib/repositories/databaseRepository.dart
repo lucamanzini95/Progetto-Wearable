@@ -1,9 +1,8 @@
 import 'package:progetto_wearable/database/database.dart';
 import 'package:progetto_wearable/database/entities/sleepData.dart';
-import 'package:progetto_wearable/database/entities/userData.dart';
 import 'package:progetto_wearable/database/entities/stepsData.dart';
+import 'package:progetto_wearable/database/entities/userData.dart';
 import 'package:flutter/material.dart';
-import 'package:progetto_wearable/fetcData/fetchSteps.dart';
 
 class DatabaseRepository extends ChangeNotifier {
   // the state of the database is just the AppDatabase
@@ -37,7 +36,17 @@ class DatabaseRepository extends ChangeNotifier {
     return result;
   }
 
-  Future<void> insertSleepData(SleepData sleepData) async {
+  Future<List<SleepData>> findUserSleep(int userId) async {
+    final result = await database.sleepDao.findUserSleep(userId);
+    return result;
+  }
+
+  Future<void> deleteSleep(List<SleepData> sleepData) async {
+    await database.sleepDao.deleteSleep(sleepData);
+    notifyListeners();
+  }
+
+  Future<void> insertSleepData(List<SleepData> sleepData) async {
     await database.sleepDao.insertSleep(sleepData);
     notifyListeners();
   }

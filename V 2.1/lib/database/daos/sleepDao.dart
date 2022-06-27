@@ -8,7 +8,15 @@ abstract class SleepDao
   @Query('SELECT * FROM SleepData')
   Future<List<SleepData>> findSleepData();
 
+  // Query 3: obtain all data entries older than a certain dateTime
+  @Query('SELECT * FROM SleepData WHERE userId = :id')
+  Future<List<SleepData>> findUserSleep(int id);
+  
   // Query 2 : insert sleep period in the table
   @insert
-  Future<void> insertSleep(SleepData sleepData);
+  Future<void> insertSleep(List<SleepData> sleepDatas);
+
+  @delete
+  Future<void> deleteSleep(List<SleepData> userSleep);
+
 }

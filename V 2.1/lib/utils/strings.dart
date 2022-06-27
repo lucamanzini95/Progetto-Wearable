@@ -11,4 +11,3 @@ class Strings {
   /// Callback scheme (replace XXX with your callback scheme)
   static const String fitbitCallbackScheme = 'example';
 }//Strings
-

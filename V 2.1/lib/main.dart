@@ -8,16 +8,18 @@ import 'package:progetto_wearable/database/database.dart';
 import 'package:progetto_wearable/repositories/databaseRepository.dart';
 import 'package:provider/provider.dart';
 
-Future<void> main() async {
+Future<void> main() async
+{
   WidgetsFlutterBinding.ensureInitialized();
 
   // open the database
-  final AppDatabase database =
-      await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  final AppDatabase database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
   // create repository from the AppDatabase just initialized
   final databaseRepository = DatabaseRepository(database: database);
-  runApp(
-    ChangeNotifierProvider<DatabaseRepository>(
+  runApp
+  (
+    ChangeNotifierProvider<DatabaseRepository>
+    (
       create: (context) => databaseRepository,
       child: MyApp(),
     ),
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+  {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Progetto Biomedical',
@@ -51,6 +54,12 @@ class MyApp extends StatelessWidget {
           final args = settings.arguments as Map;
           return MaterialPageRoute(builder: (context) {
             return RegistrationPage(user: args['user']);
+          });
+        } else if (settings.name == SleepPage.route)
+        {
+          final args = settings.arguments as Map;
+          return MaterialPageRoute(builder: (context) {
+          return SleepPage(user: args['user']);
           });
         } else {
           return null;

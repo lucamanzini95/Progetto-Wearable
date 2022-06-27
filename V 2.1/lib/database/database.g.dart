@@ -206,6 +206,18 @@ class _$SleepDao extends SleepDao {
                   'entryDateTime':
                       _dateTimeConverter.encode(item.entryDateTime),
                   'level': item.level
+                }),
+        _sleepDataDeletionAdapter = DeletionAdapter(
+            database,
+            'SleepData',
+            ['sleepId'],
+            (SleepData item) => <String, Object?>{
+                  'sleepId': item.sleepId,
+                  'userId': item.userId,
+                  'dateOfSleep': _dateTimeConverter.encode(item.dateOfSleep),
+                  'entryDateTime':
+                      _dateTimeConverter.encode(item.entryDateTime),
+                  'level': item.level
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -215,6 +227,8 @@ class _$SleepDao extends SleepDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<SleepData> _sleepDataInsertionAdapter;
+
+  final DeletionAdapter<SleepData> _sleepDataDeletionAdapter;
 
   @override
   Future<List<SleepData>> findSleepData() async {
@@ -228,9 +242,26 @@ class _$SleepDao extends SleepDao {
   }
 
   @override
-  Future<void> insertSleep(SleepData sleepData) async {
-    await _sleepDataInsertionAdapter.insert(
-        sleepData, OnConflictStrategy.abort);
+  Future<List<SleepData>> findUserSleep(int id) async {
+    return _queryAdapter.queryList('SELECT * FROM SleepData WHERE userId = ?1',
+        mapper: (Map<String, Object?> row) => SleepData(
+            row['sleepId'] as int?,
+            row['userId'] as int?,
+            _dateTimeConverter.decode(row['dateOfSleep'] as int),
+            _dateTimeConverter.decode(row['entryDateTime'] as int),
+            row['level'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> insertSleep(List<SleepData> sleepDatas) async {
+    await _sleepDataInsertionAdapter.insertList(
+        sleepDatas, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteSleep(List<SleepData> userSleep) async {
+    await _sleepDataDeletionAdapter.deleteList(userSleep);
   }
 }
 
@@ -256,7 +287,7 @@ class _$StepsDao extends StepsDao {
   final InsertionAdapter<StepsData> _stepsDataInsertionAdapter;
 
   @override
-  Future<List<StepsData>> finStepsData() async {
+  Future<List<StepsData>> findStepsData() async {
     return _queryAdapter.queryList('SELECT * FROM SleepData',
         mapper: (Map<String, Object?> row) => StepsData(
             row['stepsId'] as int?,
@@ -269,12 +300,6 @@ class _$StepsDao extends StepsDao {
   Future<void> insertSteps(StepsData stepsData) async {
     await _stepsDataInsertionAdapter.insert(
         stepsData, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<List<StepsData>> findStepsData() {
-    // TODO: implement findStepsData
-    throw UnimplementedError();
   }
 }
 

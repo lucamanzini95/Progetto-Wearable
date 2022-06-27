@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   } //_checkLogin
 
   Future<String> _loginUser(LoginData data) async {
-    if (data.name == 'bug@expert.com' && data.password == '123stella') {
+    if (data.name == 'bug@expert.com' && data.password == '123Stella') {
       final sp = await SharedPreferences.getInstance();
       sp.setString('username', data.name);
 

@@ -3,11 +3,7 @@
 import 'package:fitbitter/fitbitter.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as htpp;
-import 'package:progetto_wearable/utils/stepchart.dart';
 import '../utils/strings.dart';
-import 'package:progetto_wearable/utils/stepchart.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:progetto_wearable/utils/stepList.dart';
 
 class fetchSteps {
   Future fetchDailySteps() async {
@@ -87,37 +83,4 @@ class fetchSteps {
     }
   } //_coutnMonthySteps
 
-  /* Future saveMonthlySteps() async {
-    List<StepList> k;
-    FitbitActivityTimeseriesDataManager fitbitActivityTimeseriesDataManager =
-        FitbitActivityTimeseriesDataManager(
-      clientID: Strings.fitbitClientID,
-      clientSecret: Strings.fitbitClientSecret,
-      type: 'steps',
-    );
-
-    final stepM = await fitbitActivityTimeseriesDataManager
-        .fetch(FitbitActivityTimeseriesAPIURL.monthWithResource(
-      baseDate: DateTime.now(),
-      userID: '7ML2XV',
-      resource: fitbitActivityTimeseriesDataManager.type,
-    )) as List<FitbitActivityTimeseriesData>;
-    int lunghezzaLista = stepM.length;
-    double? x;
-    String c;
-    for (var i = 0; i < lunghezzaLista; i++) {
-      x = stepM[i].value;
-      c = stepM[i].dateOfMonitoring as String;
-      k = [
-        StepList(
-            date: c,
-            step: x,
-            barColor: charts.ColorUtil.fromDartColor(Colors.black))
-      ];
-    }
-      return StepChart(s: k);
-  } //
-  */
-
-  //metodo per calcolare le ore di sonno di un determinato giorno
 } //fetchSteps
