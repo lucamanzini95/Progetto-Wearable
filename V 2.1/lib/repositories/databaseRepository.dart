@@ -42,7 +42,19 @@ class DatabaseRepository extends ChangeNotifier
     return result;
   }
 
-  Future<void> insertSleepData(SleepData sleepData) async
+  Future<List<SleepData>> findUserSleep(int userId) async
+  {
+    final result = await database.sleepDao.findUserSleep(userId);
+    return result;
+  }
+
+  Future<void> deleteSleep(List<SleepData> sleepData) async
+  {
+    await database.sleepDao.deleteSleep(sleepData);
+    notifyListeners();
+  }
+
+  Future<void> insertSleepData(List<SleepData> sleepData) async
   {
     await database.sleepDao.insertSleep(sleepData);
     notifyListeners();

@@ -1,8 +1,11 @@
+import 'package:fitbitter/fitbitter.dart';
 import 'package:flutter/material.dart';
+import 'package:progetto_wearable/database/entities/sleepData.dart';
 import 'package:progetto_wearable/database/entities/userData.dart';
 import 'package:progetto_wearable/repositories/databaseRepository.dart';
 import 'package:progetto_wearable/screens/loginPage.dart';
 import 'package:progetto_wearable/screens/registrationPage.dart';
+import 'package:progetto_wearable/screens/sleepPage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +15,7 @@ class MyHomePage extends StatelessWidget {
   static const route = '/home/';
   static const routename = 'Homepage';
 
-  UserData? loggedUser;
+  String? userIdentification;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class MyHomePage extends StatelessWidget {
               if(snapshot.hasData)
               {
                 final data = snapshot.data as List<UserData>;
-                if (data.isEmpty)
+                if (data.isEmpty || userIdentification == null)
                 {
                   return ElevatedButton
                   (
@@ -43,7 +46,6 @@ class MyHomePage extends StatelessWidget {
                   );
                 } else
                 {
-                  loggedUser = data[0];
                   return Column
                   (
                     children: 
@@ -57,7 +59,33 @@ class MyHomePage extends StatelessWidget {
                             child: InkWell
                             (
                               splashColor: Colors.blue.withAlpha(30),
-                              onTap: () {},
+                              onTap: () async
+                              {
+                                FitbitSleepDataManager fitbitSleepDataManager = FitbitSleepDataManager(
+                                  clientID: '238LL2',
+                                  clientSecret: '2d897732730cb4a5aee10cbada65206d',
+                                );
+                                FitbitSleepAPIURL fitbitSleepAPIURL = FitbitSleepAPIURL.withUserIDAndDay(
+                                    date: DateTime.now(),
+                                    userID: userIdentification,
+                                );
+                                List<FitbitSleepData> fitbitSleepData = await fitbitSleepDataManager.fetch(fitbitSleepAPIURL) as List<FitbitSleepData>;
+                                List<SleepData> mySleepData = List.filled(fitbitSleepData.length, SleepData(null, data[0].id, DateTime.now(), DateTime.now(), ''));
+                                for(int i = 0; i < fitbitSleepData.length; i++)
+                                {
+                                  try
+                                  {
+                                    mySleepData[i] = SleepData(null, data[0].id!, fitbitSleepData[i].dateOfSleep!, fitbitSleepData[i].entryDateTime!, fitbitSleepData[i].level);
+                                  }on Exception catch(_)
+                                  {
+                                    //
+                                  }
+                                }
+                                List<SleepData> userSleepData = await dbr.findUserSleep(data[0].id!);
+                                await dbr.deleteSleep(userSleepData);
+                                await dbr.insertSleepData(mySleepData);
+                                Navigator.pushNamed(context, SleepPage.route, arguments: {'user': data[0]});
+                              },
                               child: const SizedBox
                               (
                                 width: 150,
@@ -98,7 +126,6 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Settings'),
               onTap: () => _toLoginPage(context),
             ),
-
             Consumer<DatabaseRepository>
             (
               builder: (context, dbr, child)
@@ -147,6 +174,20 @@ class MyHomePage extends StatelessWidget {
               title: const Text('Logout'),
               onTap: () => _toLoginPage(context),
             ),
+            ListTile
+            (
+              title: const Text('Connect your device'),
+              onTap: () async
+              {
+                String? userId = await FitbitConnector.authorize(
+                context: context,
+                clientID: '238LL2',
+                clientSecret: '2d897732730cb4a5aee10cbada65206d',
+                redirectUri: 'example://fitbit/auth',
+                callbackUrlScheme: 'example');
+                userIdentification = userId;
+              },
+            )
           ],
         ),
       ),
