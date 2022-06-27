@@ -27,11 +27,11 @@ class _LoginPageState extends State<LoginPage> {
     if (sp.getString('username') != null) {
       //If 'username is set, push the HomePage
       _toHomePage(context);
-    } //if
+    }
   } //_checkLogin
 
   Future<String> _loginUser(LoginData data) async {
-    if (data.name == 'bug@expert.com' && data.password == '5TrNgP5Wd') {
+    if (data.name == 'bug@expert.com' && data.password == '123stella') {
       final sp = await SharedPreferences.getInstance();
       sp.setString('username', data.name);
 
